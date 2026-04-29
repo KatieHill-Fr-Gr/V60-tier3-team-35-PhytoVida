@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useApiClient } from "@/lib/authFetch";
 import type { ApiPaginatedResponse, DbPlant } from "@repo/types";
 import { useCallback, useEffect, useRef, useState } from "react";
+import CreateUserPlantForm from "@/components/UserPlantCreation/CreateUserPlantForm";
 
 
 export default function PlantLibrary() {
@@ -53,7 +54,7 @@ export default function PlantLibrary() {
                 Plant Library
             </h1>
             <div className="flex justify-center gap-3 px-8">
-            <p className="text-center">Browse our plant database to find out more about your favourite plants and choose what to grow next.</p>
+                <p className="text-center">Browse our plant database to find out more about your favourite plants and choose what to grow next.</p>
             </div>
 
             {error && <p className="text-red-500 text-center">{error}</p>}
@@ -68,11 +69,12 @@ export default function PlantLibrary() {
                                 <img src={plant.imageUrl} alt={plant.name} className="w-full rounded mb-2" />
                             )}
                             <p className="font-semibold">{plant.name}</p>
+                            <CreateUserPlantForm plantId={plant.id} name={plant.name} />
                         </li>
                     ))}
                 </ul>
             )}
-            
+
             // TODO: allow user to download next page
             <div className="flex justify-center gap-3">
                 <Button className="rounded-full" variant="secondary" asChild>
