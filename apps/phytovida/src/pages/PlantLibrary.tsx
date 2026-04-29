@@ -1,5 +1,4 @@
 import { Button } from "@repo/ui/components/button";
-import { Link } from "react-router";
 import { useApiClient } from "@/lib/authFetch";
 import type { ApiPaginatedResponse, DbPlant } from "@repo/types";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -44,15 +43,14 @@ export default function PlantLibrary() {
     }, [apiClient]);
 
 
-    const fetchAllPlants = useCallback(async() => {
-        if (loading || !hasNextPage) return;
-        await fetchData(pageRef.current)
-    }, [loading, hasNextPage, fetchData])
+    useEffect(() => {
+        fetchData(1);
+    }, []);
 
 
-    const handleDiscoverMore = async() => {
+    const handleDiscoverMore = async () => {
         if (hasNextPage) {
-            fetchAllPlants();
+            await fetchData(pageRef.current);
             return;
         }
 
@@ -65,7 +63,6 @@ export default function PlantLibrary() {
                 return;
             }
 
-            setAllPlants([]);
             pageRef.current = 1;
             await fetchData(1)
         } catch (err) {
@@ -74,25 +71,6 @@ export default function PlantLibrary() {
             setSeeding(false)
         }
     }
-
-    // infinite scroll trigger
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && !loading && hasNextPage) {
-                    fetchAllPlants();
-                }
-            },
-            { threshold: 1 },
-        );
-
-        const el = observerRef.current;
-        if (el) observer.observe(el);
-
-        return () => {
-            if (el) observer.unobserve(el);
-        };
-    }, [fetchAllPlants, loading, hasNextPage]);
 
 
     return (
@@ -107,9 +85,7 @@ export default function PlantLibrary() {
 
             {error && <p className="text-red-500 text-center">{error}</p>}
 
-            {loading && <p className="text-center">Loading plants...</p>}
-
-            {!loading && allPlants.length > 0 && (
+            {allPlants.length > 0 && (
                 <ul className="grid grid-col-1 md:grid-cols-2 gap-4">
                     {allPlants.map((plant) => (
                         <li key={plant.id} className="border rounded p-4">
@@ -122,13 +98,20 @@ export default function PlantLibrary() {
                 </ul>
             )}
 
+            {loading && <p className="text-center">Loading plants...</p>}
+
+            <div ref={observerRef} className="h-10 w-full" />
+
             <div className="flex justify-center gap-3">
                 {!sourceExhausted ? (
-                <Button className="rounded-full" variant="secondary" asChild>
-                    {seeding ? "Please wait..." : "Discover more"}
-                </Button>
+                    <Button className="rounded-full"
+                        variant="secondary"
+                        onClick={handleDiscoverMore}
+                        disabled={loading || seeding}>
+                        {seeding ? "Please wait..." : "Discover more"}
+                    </Button>
                 ) : (
-                <p> You've discovered all available plants</p>
+                    <p> You've discovered all available plants</p>
                 )}
             </div>
 
