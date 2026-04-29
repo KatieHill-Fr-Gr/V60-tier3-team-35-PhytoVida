@@ -48,40 +48,38 @@ export const getPlantsData = async (req: Request, res: Response) => {
             `${PERENUAL_BASE_URL}/v2/species-list?key=${API_KEY}&page=${nextPage}`
         );
 
-        if (!response.ok) {
-            throw new Error(`Perenual API error: ${response.status}`);
-        }
+    if (!response.ok) {
+      throw new Error(`Perenual API error: ${response.status}`);
+    }
 
-        let data: PerenualResponse;
-        try {
-            data = await response.json() as PerenualResponse;
-        } catch (parseError) {
-            console.error("JSON parse error:", parseError);
-            throw parseError;
+    let data: PerenualResponse;
+    try {
+      data = (await response.json()) as PerenualResponse;
+    } catch (parseError) {
+      console.error("JSON parse error:", parseError);
+      throw parseError;
+    }
 
-        }
+    const plantRows = data.data.map((plant: PerenualPlant) => ({
+      id: String(plant.id),
+      name: plant.common_name,
+      imageUrl: plant.default_image?.medium_url ?? null,
+      minTemp: plant.hardiness?.min ? parseInt(plant.hardiness.min) : null,
+      maxTemp: plant.hardiness?.max ? parseInt(plant.hardiness.max) : null,
+    }));
 
-        const plantRows = data.data.map((plant: PerenualPlant) => ({
-            id: String(plant.id),
-            name: plant.common_name,
-            imageUrl: plant.default_image?.medium_url ?? null,
-            minTemp: plant.hardiness?.min ? parseInt(plant.hardiness.min) : null,
-            maxTemp: plant.hardiness?.max ? parseInt(plant.hardiness.max) : null,
-        }));
-
-
-        await db
-            .insert(plants)
-            .values(plantRows)
-            .onConflictDoUpdate({
-                target: plants.id,
-                set: {
-                    name: sql`excluded.name`,
-                    imageUrl: sql`excluded.image_url`,
-                    minTemp: sql`excluded.min_temp`,
-                    maxTemp: sql`excluded.max_temp`,
-                },
-            });
+    await db
+      .insert(plants)
+      .values(plantRows)
+      .onConflictDoUpdate({
+        target: plants.id,
+        set: {
+          name: sql`excluded.name`,
+          imageUrl: sql`excluded.image_url`,
+          minTemp: sql`excluded.min_temp`,
+          maxTemp: sql`excluded.max_temp`,
+        },
+      });
 
         await db
             .update(sourceSync)
@@ -104,7 +102,6 @@ export const getPlantsData = async (req: Request, res: Response) => {
 
 };
 
-// plantlibrary.ts controller
 export const getPlants = async (req: Request, res: Response) => {
 
     try {
