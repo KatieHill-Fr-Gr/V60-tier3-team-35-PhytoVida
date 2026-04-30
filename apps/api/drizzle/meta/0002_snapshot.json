@@ -1,5 +1,5 @@
 {
-  "id": "871b5966-513f-4bf6-8864-b2a62f74c6cf",
+  "id": "20156b1b-949c-4ca6-aa35-ddd8141ba2f8",
   "prevId": "d5adff18-64c5-427f-bc73-9c8783dfc794",
   "version": "7",
   "dialect": "postgresql",
@@ -105,72 +105,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.push_subscriptions": {
-      "name": "push_subscriptions",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "endpoint": {
-          "name": "endpoint",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "p256dh": {
-          "name": "p256dh",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "auth": {
-          "name": "auth",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "endpoint_idx": {
-          "name": "endpoint_idx",
-          "columns": [
-            {
-              "expression": "endpoint",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.user_settings": {
       "name": "user_settings",
       "schema": "",
@@ -219,19 +153,24 @@
           "primaryKey": false,
           "notNull": false
         },
+        "phase": {
+          "name": "phase",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'planning'"
+        },
         "watering_frequency": {
           "name": "watering_frequency",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "default": 7
+          "notNull": false
         },
         "last_watered_date": {
           "name": "last_watered_date",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
+          "notNull": false
         }
       },
       "indexes": {},

@@ -1,16 +1,27 @@
 import type { ReadUserPlantResponse } from "./user.plant.types";
 
 export const readUserPlants = async (
-	authFetch: any,
-	page: number,
-	limit?: 10,
+  authFetch: any,
+  page: number,
+  limit: number = 10,
 ) => {
-	return authFetch(`/my-plants?page=${page}&limit=${limit}`);
+  return authFetch(`/plants?page=${page}&limit=${limit}`);
 };
 
 export const readUserPlant = async (
-	authFetch: any,
-	id: string,
+  authFetch: any,
+  id: string,
 ): Promise<ReadUserPlantResponse> => {
-	return authFetch(`/my-plants/${id}`);
+  return authFetch(`/plants/${id}`);
+};
+
+export const createUserPlant = async (
+	authFetch: any,
+	data: {
+		plantId: string;
+		phase: string;
+		wateringFrequency: number | null;
+		lastWateredDate: Date | null;
+	}) => {
+	return await authFetch("/my-plants", data);
 };
