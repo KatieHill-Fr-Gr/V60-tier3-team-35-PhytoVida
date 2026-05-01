@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useApiClient } from "@/lib/authFetch";
 import type { ApiPaginatedResponse, DbPlant } from "@repo/types";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { SearchBar } from '../components/SearchBar'
 
 
 export default function PlantLibrary() {
@@ -54,6 +55,9 @@ export default function PlantLibrary() {
             </h1>
             <div className="flex justify-center gap-3 px-8">
             <p className="text-center">Browse our plant database to find out more about your favourite plants and choose what to grow next.</p>
+            </div>
+            <div>
+                <SearchBar />
             </div>
 
             {error && <p className="text-red-500 text-center">{error}</p>}
