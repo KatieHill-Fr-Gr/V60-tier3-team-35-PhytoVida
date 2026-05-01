@@ -56,7 +56,7 @@ export default function PlantLibrary() {
             <div className="flex justify-center gap-3 px-8">
             <p className="text-center">Browse our plant database to find out more about your favourite plants and choose what to grow next.</p>
             </div>
-            <div>
+            <div className="flex justify-center gap-3 px-8">
                 <SearchBar />
             </div>
 
