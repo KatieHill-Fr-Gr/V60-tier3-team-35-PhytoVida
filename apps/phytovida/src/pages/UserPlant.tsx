@@ -1,6 +1,6 @@
 import PlantNotFound from "@/components/PlantNotFound";
 import { PlantWateringLogs } from "@/components/PlantWateringLogs";
-import { useUserPlant } from "@/hooks/user-plants/useUserPlant";
+import { useUpdateUserPlantFields, useUserPlant } from "@/hooks/user-plants/useUserPlant";
 import { Button } from "@repo/ui/components/button";
 import { useState } from "react";
 import { useParams } from "react-router";
@@ -8,11 +8,13 @@ import { Sprout, Trash2, Droplets, Leaf, CircleArrowRight } from "lucide-react";
 import WateringFrequencyNotSetCard from "@/components/UserPlantUpdate/WateringFrequencyNotSetCard";
 import WateringFrequencyEdit from "@/components/UserPlantUpdate/WateringFrequencyEdit";
 import AlertCard from "@/components/AlertCard";
+import WateringFrequencyCard from "@/components/UserPlantUpdate/WateringFrequencyCard";
 
 export default function UserPlant() {
 	const { userPlantId } = useParams();
 	const [logsOpen, setLogsOpen] = useState(false);
 	const { isLoading, data } = useUserPlant(userPlantId!);
+	const updateUserPlantFields = useUpdateUserPlantFields();
 	const [editMode, setEditMode] = useState(false);
 	const isGrowing = false;
 
@@ -88,11 +90,23 @@ export default function UserPlant() {
 					{/* <WateringFrequencyCard /> */}
 
 					{/* 3. Edit Watering Frequency */}
+					<p>{editMode ? "Edit Mode" : "View Mode"}</p>
 					{editMode
 						?
-						<WateringFrequencyEdit setEditMode={setEditMode} />
+						<WateringFrequencyEdit
+							setEditMode={setEditMode}
+							userPlantId={plant.id}
+							defaultValue={plant.wateringFrequency}
+							updateUserPlantFields={updateUserPlantFields}
+						/>
 						:
-						<WateringFrequencyNotSetCard setEditMode={setEditMode} />
+						plant.wateringFrequency ?
+							<WateringFrequencyCard
+								wateringFrequency={plant.wateringFrequency}
+								setEditMode={setEditMode}
+							/>
+							:
+							<WateringFrequencyNotSetCard setEditMode={setEditMode} />
 					}
 				</div>
 			</section >

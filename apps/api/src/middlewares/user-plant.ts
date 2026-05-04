@@ -40,7 +40,6 @@ export const validateUserPlantUpdateInput = (req: Request, res: Response, next: 
 
     for (let index = 0; index < fields.length; index++) {
         const field = fields[index];
-        console.log(field)
         if (field.name === undefined || field.value === undefined) {
             console.log("ERROR")
             return res.status(400).json({ error: true, message: "Wrong format" })

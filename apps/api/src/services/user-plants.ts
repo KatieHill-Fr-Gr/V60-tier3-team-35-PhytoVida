@@ -67,7 +67,10 @@ export const updateUserPlant = async (userId: string, userPlantId: number, field
                 case "wateringFrequency": { objectToUpdate.wateringFrequency = value; break; };
             }
         })
-        return okAsync(await db.update(usersPlants).set(objectToUpdate));
+        return okAsync(await db
+            .update(usersPlants)
+            .set(objectToUpdate)
+            .where(eq(usersPlants.id, userPlantId)));
 
     } catch (error) {
         return errAsync({ reason: "InternalServerError", message: `${error} An error occured while updating user's plant` })

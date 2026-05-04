@@ -57,11 +57,14 @@ export const useApiClient = () => {
 	);
 
 	const patch = useCallback(
-		(url: string, body?: unknown) =>
+		(url: string, body?: unknown) => {
+			console.log(url)
+			console.log(body)
 			request(url, {
 				method: "PATCH",
 				body: JSON.stringify(body),
-			}),
+			})
+		},
 		[request],
 	);
 
