@@ -7,7 +7,6 @@ import {
   uniqueIndex,
   date,
 } from 'drizzle-orm/pg-core';
-import { createDeflate } from 'node:zlib';
 
 export const userSettings = pgTable('user_settings', {
   userId: text('user_id').primaryKey(),
