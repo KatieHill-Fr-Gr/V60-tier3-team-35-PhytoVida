@@ -22,10 +22,6 @@ const WateringFrequencyEdit = ({ setEditMode, userPlantId, defaultValue, updateU
         }, {
             onSuccess: () => {
                 setEditMode(false);
-            },
-            onError: (e: any) => {
-                console.log("Error")
-                console.log(e)
             }
         }
         )

@@ -12,7 +12,7 @@ export const readUserPlant = async (
 	authFetch: any,
 	id: string,
 ): Promise<ReadUserPlantResponse> => {
-  return authFetch(`/my-plants/${id}`);
+	return authFetch(`/my-plants/${id}`);
 };
 
 export const createUserPlant = async (
@@ -41,7 +41,5 @@ export const deleteUserPlant = async (
 	authFetch: any,
 	userPlantId: number
 ) => {
-	console.log(`To delete: ${userPlantId}`)
-	const resp = await authFetch(`/my-plants/${userPlantId}`);
-	return resp.json();
+	return await authFetch(`/my-plants/${userPlantId}`);
 }

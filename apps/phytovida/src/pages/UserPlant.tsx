@@ -20,7 +20,7 @@ export default function UserPlant() {
 	const [editMode, setEditMode] = useState(false);
 	const [phaseChangeAlertOpen, setPhaseChangeAlertOpen] = useState(false);
 	const [plantDeleteAlertOpen, setPlantDeleteAlertOpen] = useState(false);
-	
+
 	const { isLoading, data } = useUserPlant(userPlantId!);
 	const updateWateringFrequency = useUpdateUserPlantFields();
 	const updatePhase = useUpdateUserPlantFields();
@@ -54,11 +54,10 @@ export default function UserPlant() {
 			userPlantId
 		}, {
 			onSuccess: () => {
-				console.log("DELETED")
-				navgiate("/my-plants")
+				navgiate("/my-garden")
 			},
-			onError: (err) => {
-				console.log(`Error: ${err}`)
+			onError: () => {
+				setPlantDeleteAlertOpen(false);
 			}
 		}
 		)
@@ -143,17 +142,16 @@ export default function UserPlant() {
 						}}
 						isLoading={deletePlant.isPending}
 					/>
+					{
+						deletePlant.isError && <FeedbackCard
+							icon={{ icon: <TriangleAlert />, bgColor: "bg-red-800" }}
+							title={"We couldn't delete your plant"}
+							description={{ text: "We couldn't reach the garden service. Please try again in a moment.", color: "text-red-800" }}
+						/>
+					}
 				</div>
 				<div className="mt-4 p-6 rounded-xl bg-gray-100 pb-12">
 					<div className="flex gap-2 items-center text-primary"><Droplets className="w-4 h-4" />Watering frequency</div>
-					{/* cases: */}
-					{/* 1. Watering Frequency not set */}
-
-					{/* 2. Showing Watering Frequency */}
-					{/* <WateringFrequencyCard /> */}
-
-					{/* 3. Edit Watering Frequency */}
-					<p>{editMode ? "Edit Mode" : "View Mode"}</p>
 					{editMode
 						?
 						<WateringFrequencyEdit
