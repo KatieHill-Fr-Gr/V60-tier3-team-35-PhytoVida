@@ -12,10 +12,12 @@ export function Header() {
 
   return (
     <header className='relative flex justify-between items-center py-4 px-5'>
+      <Link to='/'> 
       <img
         src={logo}
         alt='pythovida logo'
       />
+      </Link>
 
       {/* Desktop nav */}
       <nav className='hidden md:flex gap-6 px-6 py-2'>
@@ -32,10 +34,10 @@ export function Header() {
           Plant Library
         </Link>
         <Link
-          to='/'
+          to='/ask-ai'
           className='font-sans text-sm font-bold text-base text-accent4 hover:text-link transition-colors duration-200'
         >
-          Guides
+          Ask AI
         </Link>
         <Link
           to='/'
