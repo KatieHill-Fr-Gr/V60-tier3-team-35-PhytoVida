@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { plants, usersPlants } from "../db/schema.js";
 import { db } from "../db/index.js";
-import { and, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import { addUserPlant, deleteUserPlant, updateUserPlant } from "../services/user-plants.js";
 import { addWateringLog } from "../services/plant-logs.js";
 
@@ -61,7 +61,7 @@ export const readUserPlantsController = async (req: Request, res: Response) => {
     const totalResult = await db
       .select({ count: usersPlants.id })
       .from(usersPlants)
-      .where(eq(usersPlants.userId, userId)); // ownership check
+      .where(and(eq(usersPlants.userId, userId), eq(usersPlants.phase, phase))); // ownership check
 
     const total = totalResult.length;
 

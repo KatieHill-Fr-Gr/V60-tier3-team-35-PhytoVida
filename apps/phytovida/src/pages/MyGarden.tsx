@@ -1,7 +1,6 @@
 import { ErrorUI } from "@/components/ErrorUI";
 import MyPlantsLists from "@/components/MyPlantsLists";
 import { UserPlantCardSkeleton } from "@/components/UserPlantCard";
-import { WorkInProgress } from "@/components/WorkInProgress";
 import { useApiClient } from "@/lib/authFetch";
 
 import type { ApiPaginatedResponse, UserPlant } from "@repo/types";
@@ -129,12 +128,17 @@ export default function MyGarden() {
               }
             </>
           ) : (
-            <>
-              <span>
-                Monitoring {loading ? 0 : plants.length}{" "}
-                <br className="block md:hidden" /> plants in your <br />{" "}
-                garden
+            <>{isShowPlanningPlants
+              ?
+              <span className="block w-4/5 mx-auto">
+                {loading ? 0 : totalPlants} plant{!!totalPlants && totalPlants > 1 ? "s are" : " is"} waiting for you to plant
               </span>
+              :
+              <span>
+                {loading ? 0 : totalPlants}{" "}
+                <br className="block md:hidden" /> plant{totalPlants && totalPlants > 1 &&"s"} growing in your <br />{" "}
+                garden
+              </span>}
             </>
           )}
 
