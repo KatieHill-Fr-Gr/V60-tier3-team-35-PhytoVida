@@ -12,7 +12,7 @@ export function Header() {
 
   return (
     <header className='relative flex justify-between items-center py-4 px-5'>
-      <Link to={isSignedIn ? '/dashboard' : '/'}> 
+      <Link to='/'> 
       <img
         src={logo}
         alt='pythovida logo'
@@ -21,6 +21,12 @@ export function Header() {
 
       {/* Desktop nav */}
       <nav className='hidden md:flex gap-6 px-6 py-2'>
+        <Link
+          to={isSignedIn ? '/dashboard' : '/auth/sign-in'}
+          className='font-sans text-sm font-bold text-base text-accent4 hover:text-link transition-colors duration-200'
+        >
+          Dashboard
+        </Link>
         <Link
           to={isSignedIn ? '/my-garden' : '/auth/sign-in'}
           className='font-sans text-sm font-bold text-base text-accent4 hover:text-link transition-colors duration-200'
@@ -38,12 +44,6 @@ export function Header() {
           className='font-sans text-sm font-bold text-base text-accent4 hover:text-link transition-colors duration-200'
         >
           Ask AI
-        </Link>
-        <Link
-          to='/'
-          className='font-sans text-sm font-bold text-base text-accent4 hover:text-link transition-colors duration-200'
-        >
-          Community
         </Link>
       </nav>
 
