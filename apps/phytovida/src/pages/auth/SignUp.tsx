@@ -1,9 +1,9 @@
-import { SignIn } from "@clerk/clerk-react";
+import { SignUp } from "@clerk/clerk-react";
 
-export default function SignInPage() {
+export default function SignUpPage() {
   return (
-    <SignIn
-      signUpUrl="/auth/sign-up"
+    <SignUp
+      signInUrl="/auth/sign-in"
       forceRedirectUrl="/dashboard"
     />
   );
