@@ -4,6 +4,6 @@ import { getDashboardData, updateUserLocation  } from "../controllers/dashboard.
 const router: Router = Router();
 
 router.get("/:userId", getDashboardData);
-router.patch("/user/:userId/location", updateUserLocation);
+router.patch("/:userId/location", updateUserLocation);
 
 export default router;

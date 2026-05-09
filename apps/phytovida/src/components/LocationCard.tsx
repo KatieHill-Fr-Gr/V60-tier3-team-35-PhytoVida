@@ -33,7 +33,7 @@ export function LocationCard({ location }: LocationCardProps) {
     setDisplayLocation(draft);
 
     try {
-      await apiClient.patch(`/api/user/${userId}/location`, { location: draft });
+      await apiClient.patch(`/dashboard/${userId}/location`, { location: draft });
     } catch {
       setDisplayLocation(location);
     } finally {
