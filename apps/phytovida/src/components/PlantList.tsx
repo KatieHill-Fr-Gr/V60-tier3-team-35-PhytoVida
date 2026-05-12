@@ -9,7 +9,7 @@ const PlantList = ({ plants }: { plants: PlantWateringDue[] | [] }) => {
     }
 
     const handlePlural = (n: number) => {
-        return `every ${n} day${n > 1 ? "s" : ""}`
+        return `every ${n > 1 ? `${n} days` : "day"}`
     }
 
     return (
